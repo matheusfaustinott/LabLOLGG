@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
@@ -6,14 +6,21 @@ import FormGroup from '@mui/material/FormGroup';
 import { loading } from '../../signals/signalsUser';
 import LoadingComponent from '../loading/loading';
 import { useSignal } from '@preact/signals-react';
+import { handleSearch } from '../../util/util';
+import { useSignals } from '@preact/signals-react/runtime';
 
-const SearchForm = ({ onSearch }) => {
+const SearchForm = () => {
+    useSignals();
+
     const gameName = useSignal('');
     const tagLine = useSignal('');
 
     const handleSubmit = async (e) => {
+        loading.value = true;
         e.preventDefault();
-        await onSearch(gameName, tagLine); 
+        await handleSearch(gameName.value, tagLine.value); 
+        loading.value = false;
+
     };
 
     return (
@@ -41,7 +48,7 @@ const SearchForm = ({ onSearch }) => {
                             sx={{ flexBasis: '30%', marginLeft: 2 }} // Ajusta a largura e adiciona margem
                         />
                     </FormGroup>
-                    <Button type="submit" variant="contained" disabled={loading.value}>Buscar</Button>
+                    <Button type="submit" variant="contained" disabled={loading.value} >Buscar</Button>
                 </FormControl>
             </form>
             <LoadingComponent open={loading.value}/> 

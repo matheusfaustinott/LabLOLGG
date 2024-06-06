@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, Backdrop, Box, Typography } from '@mui/material';
 import { styled } from '@mui/system';
+import { useSignals } from '@preact/signals-react/runtime';
 
 const ModalBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -9,7 +10,7 @@ const ModalBox = styled(Box)(({ theme }) => ({
 }));
 
 const Paper = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.background.paper,
+  backgroundColor: theme.palette.background,
   borderRadius: 10,
   boxShadow: theme.shadows[5],
   padding: theme.spacing(2, 4, 3),
@@ -24,6 +25,8 @@ const Image = styled('img')(({ theme }) => ({
 }));
 
 const LoadingComponent = ({ open }) => {
+  console.log(open);
+  useSignals();
   return (
     <Modal
       open={open}
