@@ -1,5 +1,5 @@
 import React from 'react';
-import { matches, summoner } from '../../signals/signalsUser';
+import { champMaisUsado, matches, summoner } from '../../signals/signalsUser';
 import { useSignals } from '@preact/signals-react/runtime';
 import versao from '../../signals/versao';
 
@@ -30,6 +30,9 @@ const RecentPlayedChampions = () => {
     };
 
     const mostPlayedChampions = findMostPlayedChampions();
+    console.log('3camps', mostPlayedChampions[0][0])
+    champMaisUsado.value = mostPlayedChampions;
+    
     return (
         <div style={styles.container}>
             <h2 style={styles.title}>Campeões jogados recentemente</h2>
