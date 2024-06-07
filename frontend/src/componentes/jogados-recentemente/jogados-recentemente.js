@@ -8,7 +8,7 @@ const RecentPlayedChampions = () => {
 
     // Lógica para encontrar os campeões mais jogados
     const findMostPlayedChampions = () => {
-        const championsCount = {};
+        const championsStats = {};
 
         // Verifica se summoner e matches estão definidos
         if (summoner.value && matches.value) {
@@ -16,36 +16,44 @@ const RecentPlayedChampions = () => {
                 match.info.participants.forEach(participant => {
                     if (participant.puuid === summoner.value.puuid) {
                         const championName = participant.championName;
-                        championsCount[championName] = (championsCount[championName] || 0) + 1;
+                        const didWin = participant.win;
+                        championsStats[championName] = championsStats[championName] || { wins: 0, losses: 0 };
+                        didWin ? championsStats[championName].wins++ : championsStats[championName].losses++;
                     }
                 });
             });
         }
 
-        // Ordenar os campeões por número de ocorrências
-        const sortedChampions = Object.entries(championsCount).sort((a, b) => b[1] - a[1]);
+        // Transformar em array e ordenar por quantidade de partidas
+        const sortedChampions = Object.entries(championsStats).sort(([, a], [, b]) => {
+            const aTotal = a.wins + a.losses;
+            const bTotal = b.wins + b.losses;
+            return bTotal - aTotal;
+        });
 
         // Retornar os três campeões mais jogados
         return sortedChampions.slice(0, 3);
     };
 
     const mostPlayedChampions = findMostPlayedChampions();
-    console.log('3camps', mostPlayedChampions[0][0])
     champMaisUsado.value = mostPlayedChampions;
-    
+
     return (
         <div style={styles.container}>
             <h2 style={styles.title}>Campeões jogados recentemente</h2>
             <div style={styles.championsContainer}>
-                {mostPlayedChampions.map(([championName]) => (
-                    
-                    <img
-                        key={championName}
-                        src={`https://ddragon.leagueoflegends.com/cdn/${versao.value}/img/champion/${championName}.png`}
-                        alt={championName}
-                        style={styles.championImage}
-                    />
-                    
+                {mostPlayedChampions.map(([championName, stats]) => (
+                    <div key={championName} style={styles.championContainer}>
+                        <img
+                            src={`https://ddragon.leagueoflegends.com/cdn/${versao.value}/img/champion/${championName}.png`}
+                            alt={championName}
+                            style={styles.championImage}
+                        />
+                        <div style={styles.stats}>
+                            <p>Wins: {stats.wins}</p>
+                            <p>Losses: {stats.losses}</p>
+                        </div>
+                    </div>
                 ))}
             </div>
         </div>
@@ -55,7 +63,7 @@ const RecentPlayedChampions = () => {
 const styles = {
     container: {
         width: '402px',
-        height: '140px',
+        height: 'auto',
         borderRadius: '35px',
         display: 'flex',
         flexDirection: 'column',
@@ -74,13 +82,22 @@ const styles = {
     },
     championsContainer: {
         display: 'flex',
-        justifyContent: 'space-between',
+        flexDirection: 'column',
+        alignItems: 'center',
         width: '100%'
+    },
+    championContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: '10px'
     },
     championImage: {
         width: '40px',
         height: '40px',
         borderRadius: '50%'
+    },
+    stats: {
+        marginLeft: '10px'
     }
 };
 

@@ -3,26 +3,23 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
-import { loading } from '../../signals/signalsUser';
+import { loading, nickName, tag } from '../../signals/signalsUser';
 import LoadingComponent from '../loading/loading';
-import { useSignal } from '@preact/signals-react';
 import { handleSearch } from '../../util/util';
 import { useSignals } from '@preact/signals-react/runtime';
 import { useNavigate } from 'react-router-dom';
 
+
 const SearchForm = () => {
     useSignals();
-    const navigate = useNavigate(); // Usando o hook useNavigate
-
-    const gameName = useSignal('');
-    const tagLine = useSignal('');
+    const navigate = useNavigate(); 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         loading.value = true;
-        await handleSearch(gameName.value, tagLine.value); 
+        await handleSearch(nickName.value, tag.value); 
         loading.value = false;
-        navigate('/meuperfil'); // Redirecionar para /meuperfil após a busca
+        navigate('/meuperfil'); 
     };
 
     return (
@@ -36,17 +33,17 @@ const SearchForm = () => {
                             id="name-input"
                             label="Nome de Invocador"
                             variant="outlined"
-                            value={gameName.value}
-                            onChange={(e) => gameName.value = e.target.value}
-                            sx={{ flexBasis: '70%' }} // Ajusta a largura conforme necessário
+                            value={nickName.value}
+                            onChange={(e) => nickName.value = e.target.value}
+                            sx={{ flexBasis: '70%' }} 
                         />
                         <TextField
                             margin="normal"
                             id="tag-input"
                             label="#"
                             variant="outlined"
-                            value={tagLine.value}
-                            onChange={(e) => tagLine.value = e.target.value}
+                            value={tag.value}
+                            onChange={(e) => tag.value = e.target.value}
                             sx={{ flexBasis: '30%', marginLeft: 2 }} // Ajusta a largura e adiciona margem
                         />
                     </FormGroup>
