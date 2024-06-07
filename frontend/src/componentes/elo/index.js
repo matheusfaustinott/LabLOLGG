@@ -1,33 +1,26 @@
 import React from "react";
-import {
-  Grid,
-  Typography,
-  Box,
-  styled,
-  ImageList,
-  ImageListItem,
-} from "@mui/material";
+import { Grid, Typography, Box, styled } from "@mui/material";
 import { elo } from "../../signals/signalsUser";
 import { useSignals } from "@preact/signals-react/runtime";
 
 // Definindo estilos usando styled
 const Container = styled(Box)(({ theme }) => ({
-  width: 421,
-  height: 201,
-  borderRadius: 21,
+  width: 420,
+  height: 200,
+  borderRadius: 20,
   border: "1px solid #ccc",
   padding: theme.spacing(2),
   display: "flex",
   flexDirection: "column",
   justifyContent: "space-between",
   alignItems: "center",
-  margin: "auto",
+  // margin: "auto",
 }));
 
 const Image = styled("img")(({ theme }) => ({
-  width: 80,
+  width: 120,
   height: "auto",
-  marginRight: theme.spacing(2),
+  // marginRight: theme.spacing(2),
 }));
 
 const Details = styled(Box)(({ theme }) => ({
@@ -62,12 +55,7 @@ const RankedDetails = () => {
     <Container>
       <Grid container spacing={2} alignItems="center">
         <Grid item>
-          <ImageList>
-            <ImageListItem>
-              <img src={`./rankd/DIAMOND.png`} alt={soloRank.tier} />
-            </ImageListItem>
-          </ImageList>
-          <Image src={`./rankd${soloRank.tier}.png`} alt={soloRank.tier} />
+          <Image src={`/rankd/${soloRank.tier}.png`} alt={soloRank.tier} />
         </Grid>
         <Grid item>
           <Details>

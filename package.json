@@ -6,6 +6,8 @@
   "scripts": {
     "start-front": "cd frontend && cross-env PORT=1408 npm start",
     "start-back": "cd backend && node index",
+    "build-front": "cd frontend && npm run build",
+    "build": "npm run build-front",
     "dev": "npm-run-all --parallel start-front start-back",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
