@@ -5,8 +5,8 @@ import { useSignals } from "@preact/signals-react/runtime";
 
 // Definindo estilos usando styled
 const Container = styled(Box)(({ theme }) => ({
-  width: 420,
-  height: 200,
+  width: 350,
+  height: 180,
   borderRadius: 20,
   border: "1px solid #ccc",
   padding: theme.spacing(2),
@@ -31,7 +31,7 @@ const Details = styled(Box)(({ theme }) => ({
 
 const WinLoss = styled(Box)(({ theme }) => ({
   textAlign: "left",
-  marginTop: theme.spacing(1),
+  // marginTop: theme.spacing(),
 }));
 
 const RankedDetails = () => {
@@ -49,7 +49,19 @@ const RankedDetails = () => {
 
   // Cálculo do Winrate
   const totalGames = soloRank.wins + soloRank.losses;
-  const winRate = ((soloRank.wins / totalGames) * 100).toFixed(2);
+  const winRate = ((soloRank.wins / totalGames) * 100).toFixed();
+
+  const winRateColor = (data) => {
+    return data !== 50 ? (
+      data > 50 ? (
+        <span style={{ color: "green" }}>{data}%</span>
+      ) : (
+        <span style={{ color: "red" }}>{data}%</span>
+      )
+    ) : (
+      <span style={{ color: "blue" }}>{data}%</span>
+    );
+  };
 
   return (
     <Container>
@@ -62,16 +74,19 @@ const RankedDetails = () => {
             <Typography variant="h6">
               {soloRank.tier} {soloRank.rank}
             </Typography>
-            <Typography variant="body1">{soloRank.leaguePoints} PDL</Typography>
+            <Typography variant="body1">
+              <span style={{ color: "gray" }}>{soloRank.leaguePoints} PDL</span>
+            </Typography>
           </Details>
         </Grid>
       </Grid>
       <WinLoss>
         <Typography variant="body2">
-          {soloRank.wins}W / {soloRank.losses}L
+          <span style={{ color: "green" }}>{soloRank.wins}W</span> / 
+          <span style={{ color: "red" }}> {soloRank.losses}L</span>
         </Typography>
         <Typography variant="body2">
-          Winrate: {winRate}% - Total de partidas: {totalGames}
+          Winrate: {winRateColor(winRate)} - Total de partidas: <span style={{ color: "blue" }}>{totalGames}</span>
         </Typography>
       </WinLoss>
     </Container>
