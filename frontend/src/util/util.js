@@ -24,6 +24,7 @@ export const handleSearch = async (gameName, tagLine) => {
         const data = response.data;
         console.log('resultado:',response.data)
         summoner.value = data.summoner;
+        console.log('summoner,', summoner.value)
         elo.value = data.league;
         matches.value = data.matches;
        
