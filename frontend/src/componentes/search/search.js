@@ -8,19 +8,21 @@ import LoadingComponent from '../loading/loading';
 import { useSignal } from '@preact/signals-react';
 import { handleSearch } from '../../util/util';
 import { useSignals } from '@preact/signals-react/runtime';
+import { useNavigate } from 'react-router-dom';
 
 const SearchForm = () => {
     useSignals();
+    const navigate = useNavigate(); // Usando o hook useNavigate
 
     const gameName = useSignal('');
     const tagLine = useSignal('');
 
     const handleSubmit = async (e) => {
-        loading.value = true;
         e.preventDefault();
+        loading.value = true;
         await handleSearch(gameName.value, tagLine.value); 
         loading.value = false;
-
+        navigate('/meuperfil'); // Redirecionar para /meuperfil após a busca
     };
 
     return (
@@ -34,7 +36,7 @@ const SearchForm = () => {
                             id="name-input"
                             label="Nome de Invocador"
                             variant="outlined"
-                            value={gameName}
+                            value={gameName.value}
                             onChange={(e) => gameName.value = e.target.value}
                             sx={{ flexBasis: '70%' }} // Ajusta a largura conforme necessário
                         />
@@ -43,7 +45,7 @@ const SearchForm = () => {
                             id="tag-input"
                             label="#"
                             variant="outlined"
-                            value={tagLine}
+                            value={tagLine.value}
                             onChange={(e) => tagLine.value = e.target.value}
                             sx={{ flexBasis: '30%', marginLeft: 2 }} // Ajusta a largura e adiciona margem
                         />

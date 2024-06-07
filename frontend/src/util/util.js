@@ -31,7 +31,7 @@ export const handleSearch = async (gameName, tagLine) => {
         if (axios.isAxiosError(error)) {
             console.error('Não foi posivel achar o jogador:', error.message);
         } else {
-            console.error('Unexpected error:', error);
+            console.error('ERRO desconhecido:', error);
         }
     } finally {
         loading.value = false;
