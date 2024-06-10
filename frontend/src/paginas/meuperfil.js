@@ -2,6 +2,8 @@ import React from "react";
 import RankedDetails from "../componentes/elo";
 import RecentPlayedChampions from "../componentes/jogados-recentemente/jogados-recentemente";
 import Banner from "../componentes/banner/banner";
+import Duos from "../componentes/duo/duo";
+import Role from "../componentes/role/role";
 
 const MeuPerfil = () => {
   return (
@@ -16,6 +18,8 @@ const MeuPerfil = () => {
       <RankedDetails />
       <RecentPlayedChampions/>
       <Banner/>
+      <Duos/>
+      <Role/>
     </div>
   );
 };
