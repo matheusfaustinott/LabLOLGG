@@ -15,11 +15,9 @@ const Role = () => {
                 const didWin = match.info.participants.find(participant => participant.puuid === currentSummonerPuuid).win;
 
                 if (lanes[currentSummonerTeamPosition]) {
-                    // Se a posição da equipe já foi registrada, atualize os dados
                     lanes[currentSummonerTeamPosition].total++;
                     didWin ? lanes[currentSummonerTeamPosition].wins++ : lanes[currentSummonerTeamPosition].losses++;
                 } else {
-                    // Se a posição da equipe ainda não foi registrada, inicialize os dados
                     lanes[currentSummonerTeamPosition] = {
                         total: 1,
                         wins: didWin ? 1 : 0,
@@ -29,7 +27,6 @@ const Role = () => {
             });
         }
 
-        // Calcula a winrate para cada posição da equipe
         Object.keys(lanes).forEach(position => {
             const { wins, total } = lanes[position];
             lanes[position].winrate = wins / total;
@@ -40,17 +37,13 @@ const Role = () => {
 
     const laneStatsData = laneStats();
 
-    // Encontre a posição mais jogada (com base no número total de partidas)
     const mostPlayedLane = Object.keys(laneStatsData).reduce((prev, curr) => (
         laneStatsData[curr].total > laneStatsData[prev].total ? curr : prev
     ));
 
-    // Se você quiser armazenar a posição mais jogada e sua winrate em variáveis separadas,
-    // você pode fazer algo assim:
     const mostPlayedLanePosition = mostPlayedLane;
     const mostPlayedLaneWinrate = laneStatsData[mostPlayedLane].winrate;
 
-    // Obtendo o caminho do ícone com base na posição
     const iconPath = `/lanes/${mostPlayedLanePosition.toLowerCase()}.png`;
 
     // Estilo CSS
