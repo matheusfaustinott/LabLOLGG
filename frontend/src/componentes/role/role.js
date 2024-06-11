@@ -71,7 +71,6 @@ const Role = () => {
             <h2 style={styles.title}>Posição Mais Jogada</h2>
             <img src={iconPath} alt={mostPlayedLanePosition} style={styles.icon} />
             <div style={styles.info}>
-                <p>Posição: {mostPlayedLanePosition}</p>
                 <p>Winrate: {(mostPlayedLaneWinrate * 100).toFixed()}%</p>
             </div>
         </div>

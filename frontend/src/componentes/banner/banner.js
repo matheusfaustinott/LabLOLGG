@@ -1,6 +1,9 @@
 import React from 'react';
 import { champMaisUsado } from '../../signals/signalsUser';
 import LabGGIcon from '../icon/icone';
+import UpdateButton from '../update/update';
+import Role from '../role/role';
+import RecentPlayedChampions from '../jogados-recentemente/jogados-recentemente';
 
 
 const Banner = () => {
@@ -15,7 +18,12 @@ const Banner = () => {
         <div style={{ ...styles.banner, backgroundImage: `url(${backgroundImageUrl})` }}>
             <div style={styles.overlay}></div>
             <div style={styles.content}>
-                <LabGGIcon />
+                <div style={{ marginRight: '20px' }}><LabGGIcon /></div> {/* Adicionando margem entre LabGGIcon e UpdateButton */}
+                <UpdateButton/>
+                <div style={{ position: 'absolute', top: '10px', right: '10px' }}> {/* Posicionando a Role no canto superior direito */}
+                    <Role/>
+                </div>
+                <div style={{ marginTop: '20px' }}><RecentPlayedChampions/></div> {/* Adicionando espaçamento entre LabGGIcon e RecentPlayedChampions */}
             </div>
         </div>
     );
@@ -33,7 +41,7 @@ const styles = {
         alignItems: 'center',
         justifyContent: 'center',
         color: '#fff',
-        overflow: 'hidden', // Para garantir que nada ultrapasse as bordas do banner
+        overflow: 'hidden',
     },
     overlay: {
         position: 'absolute',

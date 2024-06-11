@@ -1,16 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { matches, summoner } from '../../signals/signalsUser';
 import versao from '../../signals/versao';
 
-// Função para converter a duração do jogo em minutos e segundos
 const formatDuration = (duration) => {
     const minutes = Math.floor(duration / 60);
     const seconds = duration % 60;
     return `${minutes}m ${seconds}s`;
 };
 
-// Função para verificar a cor do time
-const getTeamColor = (teamId) => (teamId === 100 ? 'blue' : 'red');
+const getTeamColor = (teamId) => (teamId === 100 ? '#9acddc' : '#e8caca');
 
 const getMainAndSecondaryLane = () => {
     const laneCounts = matches.value.reduce((acc, match) => {
@@ -32,13 +30,27 @@ const getLaneStatus = (currentLane, mainLane, secondaryLane) => {
     if (currentLane === mainLane) {
         return 'Main Lane';
     } else if (currentLane === secondaryLane) {
-        return 'Secondary Lane';
+        return 'Lane Secundária';
     } else {
-        return 'Possible Autofill';
+        return 'AutoFill';
     }
 };
 
-const MatchCard = ({ match, version }) => {
+const preloadImages = (urls) => {
+    return Promise.all(
+        urls.map(
+            (url) =>
+                new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.src = url;
+                    img.onload = resolve;
+                    img.onerror = reject;
+                })
+        )
+    );
+};
+
+const MatchCard = ({ match }) => {
     const participant = match.info.participants.find(p => p.puuid === summoner.value.puuid);
     const teamColor = getTeamColor(participant.teamId);
     const gameDuration = formatDuration(match.info.gameDuration);
@@ -47,67 +59,48 @@ const MatchCard = ({ match, version }) => {
     const laneStatus = getLaneStatus(participant.teamPosition, mainLane, secondaryLane);
 
     return (
-        <div style={{ backgroundColor: teamColor, padding: '10px', margin: '10px', borderRadius: '10px', width: '300px' }}>
-            <div>
-                <strong>{participant.win ? 'Victory' : 'Defeat'}</strong>
-                <div>Duration: {gameDuration}</div>
-                <div>Version: {gameVersion}</div>
+        <div style={{ backgroundColor: teamColor, padding: '20px', margin: '10px auto', borderRadius: '10px', width: '60%', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div>
-                    <img src={`/lanes/${participant.teamPosition}.png`} alt={participant.teamPosition} style={{ width: '30px', height: '30px' }} />
-                    {laneStatus}
+                    <strong>{participant.win ? 'Victory' : 'Defeat'}</strong>
+                    <div style={{ fontSize: '12px', color: '#555' }}>Duration: {gameDuration}</div>
+                    <div style={{ fontSize: '12px', color: '#555' }}>Version: {gameVersion}</div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <img src={`/lanes/${participant.teamPosition}.png`} alt={participant.teamPosition} style={{ width: '30px', height: '30px' }} />
+                        {laneStatus}
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <img
+                            src={`https://ddragon.leagueoflegends.com/cdn/${versao.value}/img/champion/${participant.championName}.png`}
+                            alt={participant.championName}
+                            style={{ width: '50px', height: '50px' }}
+                        />
+                        <span>{participant.champLevel}</span>
+                    </div>
                 </div>
             </div>
-            <div>
-                <img
-                    src={`https://ddragon.leagueoflegends.com/cdn/${versao.value}/img/champion/${participant.championName}.png`}
-                    alt={participant.championName}
-                    style={{ width: '50px', height: '50px' }}
-                />
-                <span>{participant.champLevel}</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                    <strong>{participant.kills} / {participant.deaths} / {participant.assists}</strong>
+                    <div>Farm: {participant.totalMinionsKilled}</div>
+                    <div>Vision Score: {participant.visionScore}</div>
+                </div>
+                <div style={{ display: 'flex', gap: '5px' }}>
+                    {Array.from({ length: 7 }).map((_, index) => (
+                        participant[`item${index}`] !== 0 && (
+                            <img
+                                key={index}
+                                src={`https://ddragon.leagueoflegends.com/cdn/${versao.value}/img/item/${participant[`item${index}`]}.png`}
+                                alt={`Item ${index}`}
+                                style={{ width: '30px', height: '30px' }}
+                            />
+                        )
+                    ))}
+                </div>
             </div>
-            <div>
-                <div>Summoner Spells:</div>
-                {/* <img
-                    src={`https://ddragon.leagueoflegends.com/cdn/${version}/img/spell/Summoner${participant.summoner1Id}.png`}
-                    alt={`Summoner Spell ${participant.summoner1Id}`}
-                    style={{ width: '30px', height: '30px' }}
-                />
-                <img
-                    src={`https://ddragon.leagueoflegends.com/cdn/${version}/img/spell/Summoner${participant.summoner2Id}.png`}
-                    alt={`Summoner Spell ${participant.summoner2Id}`}
-                    style={{ width: '30px', height: '30px' }}
-                /> */}
-            </div>
-            <div>
-                <div>Runes:</div>
-                {/* {participant.perks.styles.map((style, index) => (
-                    <div key={index}>
-                        <img
-                            src={`https://ddragon.leagueoflegends.com/cdn/${version}/img/perk/${style.style}.png`}
-                            alt={`Rune ${style.style}`}
-                            style={{ width: '30px', height: '30px' }}
-                        />
-                    </div>
-                ))} */}
-            </div>
-            <div>
-                <div>Items:</div>
-                {Array.from({ length: 7 }).map((_, index) => (
-                    participant[`item${index}`] !== 0 && (
-                        <img
-                            key={index}
-                            src={`https://ddragon.leagueoflegends.com/cdn/${versao.value}/img/item/${participant[`item${index}`]}.png`}
-                            alt={`Item ${index}`}
-                            style={{ width: '30px', height: '30px' }}
-                        />
-                    )
-                ))}
-            </div>
-            <div>
-                <div>{participant.kills} / {participant.deaths} / {participant.assists}</div>
-                <div>KDA: {(participant.kills + participant.assists) / participant.deaths}</div>
-                <div>CS: {participant.totalMinionsKilled} ({participant.laneMinionsFirst10Minutes} @10)</div>
-                <div>Vision Score: {participant.visionScore}</div>
+            <div style={{ marginTop: '10px' }}>
                 {participant.doubleKills > 0 && <div>Double Kill</div>}
                 {participant.tripleKills > 0 && <div>Triple Kill</div>}
                 {participant.quadraKills > 0 && <div>Quadra Kill</div>}
@@ -118,14 +111,46 @@ const MatchCard = ({ match, version }) => {
 };
 
 const MatchList = ({ version }) => {
+    const [matchesToShow, setMatchesToShow] = useState(5);
+    const [imagesLoaded, setImagesLoaded] = useState(false);
+
+    useEffect(() => {
+        const imageUrls = matches.value.flatMap(match => {
+            const participant = match.info.participants.find(p => p.puuid === summoner.value.puuid);
+            const championImg = `https://ddragon.leagueoflegends.com/cdn/${versao.value}/img/champion/${participant.championName}.png`;
+            const itemImgs = Array.from({ length: 7 }).map((_, index) => {
+                return participant[`item${index}`] !== 0 ? `https://ddragon.leagueoflegends.com/cdn/${versao.value}/img/item/${participant[`item${index}`]}.png` : null;
+            }).filter(url => url !== null);
+            return [championImg, ...itemImgs];
+        });
+
+        preloadImages(imageUrls).then(() => {
+            setImagesLoaded(true);
+        }).catch(err => {
+            console.error("Error loading images", err);
+            setImagesLoaded(true); // Optionally allow rendering even if some images fail to load
+        });
+    }, []);
+
+    const handleLoadMore = () => {
+        setMatchesToShow(prev => prev + 5);
+    };
+
+    if (!imagesLoaded) {
+        return <div>Loading images...</div>;
+    }
 
     return (
-        <div>
-            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                {matches.value.map(match => (
-                    <MatchCard key={match.metadata.matchId} match={match} version={version} />
-                ))}
-            </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center' }}>
+            {matches.value.slice(0, matchesToShow).map(match => (
+                <MatchCard key={match.metadata.matchId} match={match} version={version} />
+            ))}
+            {matchesToShow < matches.value.length && (
+                <button onClick={handleLoadMore}>Carregar Mais</button>
+            )}
+            {matchesToShow >= matches.value.length && (
+                <div>Já carregou todas as partidas disponíveis.</div>
+            )}
         </div>
     );
 };

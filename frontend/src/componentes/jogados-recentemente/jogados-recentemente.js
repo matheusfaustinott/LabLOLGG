@@ -50,8 +50,8 @@ const RecentPlayedChampions = () => {
                             style={styles.championImage}
                         />
                         <div style={styles.stats}>
-                            <p>Wins: {stats.wins}</p>
-                            <p>Losses: {stats.losses}</p>
+                            <p style={styles.wins}>W: {stats.wins}</p>
+                            <p style={styles.losses}>L: {stats.losses}</p>
                         </div>
                     </div>
                 ))}
@@ -62,15 +62,12 @@ const RecentPlayedChampions = () => {
 
 const styles = {
     container: {
-        width: '402px',
-        height: 'auto',
-        borderRadius: '35px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#f5f5f5',
         padding: '10px',
+        opacity: 0.8,
         boxSizing: 'border-box'
     },
     title: {
@@ -78,18 +75,20 @@ const styles = {
         marginBottom: '10px',
         fontSize: '16px',
         fontWeight: 'bold',
-        color: '#333'
+        color: '#fff'
     },
     championsContainer: {
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'row',
+        justifyContent: 'center',
         alignItems: 'center',
-        width: '100%'
+        width: '100%',
+        gap: '20px'
     },
     championContainer: {
         display: 'flex',
-        alignItems: 'center',
-        marginBottom: '10px'
+        flexDirection: 'column',
+        alignItems: 'center'
     },
     championImage: {
         width: '40px',
@@ -97,7 +96,19 @@ const styles = {
         borderRadius: '50%'
     },
     stats: {
-        marginLeft: '10px'
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: '5px',
+        fontSize: '12px',
+        opacity: 0.7
+    },
+    wins: {
+        color: 'green',
+        marginRight: '5px'
+    },
+    losses: {
+        color: 'red'
     }
 };
 
