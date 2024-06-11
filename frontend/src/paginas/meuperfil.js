@@ -4,6 +4,7 @@ import RecentPlayedChampions from "../componentes/jogados-recentemente/jogados-r
 import Banner from "../componentes/banner/banner";
 import Duos from "../componentes/duo/duo";
 import Role from "../componentes/role/role";
+import MatchList from "../componentes/historico/historico";
 
 const MeuPerfil = () => {
   return (
@@ -20,6 +21,7 @@ const MeuPerfil = () => {
       <Banner/>
       <Duos/>
       <Role/>
+      <MatchList/>
     </div>
   );
 };

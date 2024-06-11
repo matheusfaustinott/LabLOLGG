@@ -44,8 +44,7 @@ const Role = () => {
     const mostPlayedLanePosition = mostPlayedLane;
     const mostPlayedLaneWinrate = laneStatsData[mostPlayedLane].winrate;
 
-    const iconPath = `/lanes/${mostPlayedLanePosition.toLowerCase()}.png`;
-
+    const iconPath = `/lanes/${mostPlayedLanePosition}.png`;
     // Estilo CSS
     const styles = {
         container: {
