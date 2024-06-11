@@ -20,7 +20,7 @@ export const version  = () =>{
 export const handleSearch = async (gameName, tagLine) => {
     loading.value = true;
     try {
-        const response = await axios.get(`http://localhost:3090/search/${gameName}/${tagLine}`);
+        const response = await axios.get(`http://150.162.202.29:3090/search/${gameName}/${tagLine}`);
         const data = response.data;
         console.log('resultado:',response.data)
         summoner.value = data.summoner;
