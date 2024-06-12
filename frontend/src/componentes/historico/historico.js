@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { matches, summoner } from '../../signals/signalsUser';
 import versao from '../../signals/versao';
+import { useSignals } from '@preact/signals-react/runtime';
+
+
 
 const formatDuration = (duration) => {
     const minutes = Math.floor(duration / 60);
@@ -8,7 +11,6 @@ const formatDuration = (duration) => {
     return `${minutes}m ${seconds}s`;
 };
 
-const getTeamColor = (teamId) => (teamId === 100 ? '#9acddc' : '#e8caca');
 
 const getMainAndSecondaryLane = () => {
     const laneCounts = matches.value.reduce((acc, match) => {
@@ -51,6 +53,8 @@ const preloadImages = (urls) => {
 };
 
 const MatchCard = ({ match }) => {
+    useSignals();
+    const getTeamColor = (teamId) => (teamId === 100 ? '#9acddc' : '#e8caca');
     const participant = match.info.participants.find(p => p.puuid === summoner.value.puuid);
     const teamColor = getTeamColor(participant.teamId);
     const gameDuration = formatDuration(match.info.gameDuration);
@@ -111,6 +115,7 @@ const MatchCard = ({ match }) => {
 };
 
 const MatchList = ({ version }) => {
+    useSignals();
     const [matchesToShow, setMatchesToShow] = useState(5);
     const [imagesLoaded, setImagesLoaded] = useState(false);
 
@@ -128,7 +133,7 @@ const MatchList = ({ version }) => {
             setImagesLoaded(true);
         }).catch(err => {
             console.error("Error loading images", err);
-            setImagesLoaded(true); // Optionally allow rendering even if some images fail to load
+            setImagesLoaded(true);
         });
     }, []);
 

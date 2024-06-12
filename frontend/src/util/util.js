@@ -1,6 +1,7 @@
 import versao from "../signals/versao";
 import axios from 'axios';
-import { elo, loading, matches, summoner } from "../signals/signalsUser";
+import { champMaisUsado, elo, loading, matches, summoner } from "../signals/signalsUser";
+
 
 
 export const version  = () =>{
@@ -38,3 +39,33 @@ export const handleSearch = async (gameName, tagLine) => {
         loading.value = false;
     }
 };
+
+   // Lógica para encontrar os campeões mais jogados
+export const findMostPlayedChampions = () => {
+    const championsStats = {};
+
+    // Verifica se summoner e matches estão definidos
+    if (summoner.value && matches.value) {
+        matches.value.forEach(match => {
+            match.info.participants.forEach(participant => {
+                if (participant.puuid === summoner.value.puuid) {
+                    const championName = participant.championName;
+                    const didWin = participant.win;
+                    championsStats[championName] = championsStats[championName] || { wins: 0, losses: 0 };
+                    didWin ? championsStats[championName].wins++ : championsStats[championName].losses++;
+                }
+            });
+        });
+    }
+    // Transformar em array e ordenar por quantidade de partidas
+    const sortedChampions = Object.entries(championsStats).sort(([, a], [, b]) => {
+        const aTotal = a.wins + a.losses;
+        const bTotal = b.wins + b.losses;
+        return bTotal - aTotal;
+    });
+    
+    champMaisUsado.value = sortedChampions.slice(0, 3);
+    return sortedChampions.slice(0, 3);
+    
+};
+

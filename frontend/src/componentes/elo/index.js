@@ -2,6 +2,7 @@ import React from "react";
 import { Grid, Typography, Box, styled } from "@mui/material";
 import { elo } from "../../signals/signalsUser";
 import { useSignals } from "@preact/signals-react/runtime";
+import { useNavigate } from "react-router-dom";
 
 // Definindo estilos usando styled
 const Container = styled(Box)(({ theme }) => ({
@@ -35,12 +36,19 @@ const WinLoss = styled(Box)(({ theme }) => ({
 }));
 
 const RankedDetails = () => {
+  const navigate = useNavigate(); // Step 2: Use useNavigate
   useSignals();
-  // Filtrando os dados para encontrar o objeto com queueType === 'RANKED_SOLO_5x5'
+
+  // Redirect if elo.value is null
+  if (!elo.value) {
+    navigate('/'); // Step 3: Navigate to '/'
+    return null; // Prevent rendering the rest of the component
+  }
+
   const soloRank = elo.value.find(
     (item) => item.queueType === "RANKED_SOLO_5x5"
   );
-
+  console.log('teste0.2',soloRank);
   if (!soloRank) {
     return (
       <Typography>Nenhuma informação de Ranked Solo encontrada.</Typography>

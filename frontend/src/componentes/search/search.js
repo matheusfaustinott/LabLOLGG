@@ -44,7 +44,7 @@ const SearchForm = () => {
                             variant="outlined"
                             value={tag.value}
                             onChange={(e) => tag.value = e.target.value}
-                            sx={{ flexBasis: '30%', marginLeft: 2 }} // Ajusta a largura e adiciona margem
+                            sx={{ flexBasis: '30%', marginLeft: 2 }} 
                         />
                     </FormGroup>
                     <Button type="submit" variant="contained" disabled={loading.value} >Buscar</Button>

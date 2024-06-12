@@ -1,18 +1,15 @@
 import React from 'react';
-import { champMaisUsado } from '../../signals/signalsUser';
 import LabGGIcon from '../icon/icone';
 import UpdateButton from '../update/update';
 import Role from '../role/role';
 import RecentPlayedChampions from '../jogados-recentemente/jogados-recentemente';
+import { findMostPlayedChampions } from '../../util/util';
 
 
 const Banner = () => {
-    if (!champMaisUsado.value || champMaisUsado.value.length === 0) {
-        return null;
-    }
-
-    const championName = champMaisUsado.value[0][0];
-    const backgroundImageUrl = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${championName}_0.jpg`;
+    const championName = findMostPlayedChampions();
+    console.log('@',championName[0])
+    const backgroundImageUrl = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${championName[0][0]}_0.jpg`;
 
     return (
         <div style={{ ...styles.banner, backgroundImage: `url(${backgroundImageUrl})` }}>

@@ -1,39 +1,11 @@
 import React from 'react';
-import { champMaisUsado, matches, summoner } from '../../signals/signalsUser';
+import { champMaisUsado } from '../../signals/signalsUser';
 import { useSignals } from '@preact/signals-react/runtime';
 import versao from '../../signals/versao';
+import { findMostPlayedChampions } from '../../util/util';
 
 const RecentPlayedChampions = () => {
     useSignals();
-
-    // Lógica para encontrar os campeões mais jogados
-    const findMostPlayedChampions = () => {
-        const championsStats = {};
-
-        // Verifica se summoner e matches estão definidos
-        if (summoner.value && matches.value) {
-            matches.value.forEach(match => {
-                match.info.participants.forEach(participant => {
-                    if (participant.puuid === summoner.value.puuid) {
-                        const championName = participant.championName;
-                        const didWin = participant.win;
-                        championsStats[championName] = championsStats[championName] || { wins: 0, losses: 0 };
-                        didWin ? championsStats[championName].wins++ : championsStats[championName].losses++;
-                    }
-                });
-            });
-        }
-
-        // Transformar em array e ordenar por quantidade de partidas
-        const sortedChampions = Object.entries(championsStats).sort(([, a], [, b]) => {
-            const aTotal = a.wins + a.losses;
-            const bTotal = b.wins + b.losses;
-            return bTotal - aTotal;
-        });
-
-        // Retornar os três campeões mais jogados
-        return sortedChampions.slice(0, 3);
-    };
 
     const mostPlayedChampions = findMostPlayedChampions();
     champMaisUsado.value = mostPlayedChampions;

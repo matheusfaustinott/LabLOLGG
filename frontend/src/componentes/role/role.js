@@ -64,8 +64,6 @@ const Role = () => {
             marginBottom: '10px'
         }
     };
-
-    // Retorno
     return (
         <div style={styles.container}>
             <h2 style={styles.title}>Posição Mais Jogada</h2>
