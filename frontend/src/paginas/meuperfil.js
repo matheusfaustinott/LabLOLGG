@@ -6,6 +6,7 @@ import Duos from "../componentes/duo/duo";
 import MatchList from "../componentes/historico/historico";
 import { useSignals } from "@preact/signals-react/runtime";
 import Menu from "../componentes/menus";
+import RankedDetailsFlex from "../componentes/elo/flex";
 
 const MeuPerfil = () => {
   useSignals();
@@ -34,6 +35,7 @@ const MeuPerfil = () => {
         {/* RankedDetails on the right */}
         <Grid item xs={12} md={4}>
           <RankedDetails />
+          <RankedDetailsFlex/>
           
           {/* Duos below RankedDetails */}
           <Box sx={{ marginTop: 2 }}>
