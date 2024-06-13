@@ -1,10 +1,7 @@
 import React from "react";
 import { Grid, Typography, Box, styled } from "@mui/material";
 import { elo } from "../../signals/signalsUser";
-import { useSignals } from "@preact/signals-react/runtime";
 import { useNavigate } from "react-router-dom";
-
-// Definindo estilos usando styled
 const Container = styled(Box)(({ theme }) => ({
   width: 350,
   height: 180,
@@ -15,13 +12,11 @@ const Container = styled(Box)(({ theme }) => ({
   flexDirection: "column",
   justifyContent: "space-between",
   alignItems: "center",
-  // margin: "auto",
 }));
 
 const Image = styled("img")(({ theme }) => ({
   width: 120,
   height: "auto",
-  // marginRight: theme.spacing(2),
 }));
 
 const Details = styled(Box)(({ theme }) => ({
@@ -32,17 +27,14 @@ const Details = styled(Box)(({ theme }) => ({
 
 const WinLoss = styled(Box)(({ theme }) => ({
   textAlign: "left",
-  // marginTop: theme.spacing(),
 }));
 
 const RankedDetails = () => {
-  const navigate = useNavigate(); // Step 2: Use useNavigate
-  useSignals();
+  const navigate = useNavigate();
 
-  // Redirect if elo.value is null
   if (!elo.value) {
-    navigate('/'); // Step 3: Navigate to '/'
-    return null; // Prevent rendering the rest of the component
+    navigate('/'); 
+    return null; 
   }
 
   const soloRank = elo.value.find(

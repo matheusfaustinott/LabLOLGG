@@ -4,7 +4,6 @@ import { elo } from "../../signals/signalsUser";
 import { useSignals } from "@preact/signals-react/runtime";
 import { useNavigate } from "react-router-dom";
 
-// Definindo estilos usando styled
 const Container = styled(Box)(({ theme }) => ({
   width: 350,
   height: 180,
@@ -15,13 +14,11 @@ const Container = styled(Box)(({ theme }) => ({
   flexDirection: "column",
   justifyContent: "space-between",
   alignItems: "center",
-  // margin: "auto",
 }));
 
 const Image = styled("img")(({ theme }) => ({
   width: 80,
   height: "auto",
-  // marginRight: theme.spacing(2),
 }));
 
 const Details = styled(Box)(({ theme }) => ({
@@ -32,30 +29,27 @@ const Details = styled(Box)(({ theme }) => ({
 
 const WinLoss = styled(Box)(({ theme }) => ({
   textAlign: "left",
-  // marginTop: theme.spacing(),
 }));
 
 const RankedDetailsFlex = () => {
-  const navigate = useNavigate(); // Step 2: Use useNavigate
+  const navigate = useNavigate();
   useSignals();
-
-  // Redirect if elo.value is null
   if (!elo.value) {
-    navigate('/'); // Step 3: Navigate to '/'
-    return null; // Prevent rendering the rest of the component
+    navigate("/");
+    return null;
   }
 
   const flexRank = elo.value.find(
     (item) => item.queueType === "RANKED_FLEX_SR"
   );
-  console.log('teste0.2',flexRank);
+  console.log("teste0.2", flexRank);
+
   if (!flexRank) {
     return (
       <Typography>Nenhuma informação de Ranked Flex encontrada.</Typography>
     );
   }
 
-  // Cálculo do Winrate
   const totalGames = flexRank.wins + flexRank.losses;
   const winRate = ((flexRank.wins / totalGames) * 100).toFixed();
 
@@ -70,7 +64,7 @@ const RankedDetailsFlex = () => {
       <span style={{ color: "blue" }}>{data}%</span>
     );
   };
-
+  
   return (
     <Container>
       <Grid container spacing={2} alignItems="center">
@@ -90,11 +84,12 @@ const RankedDetailsFlex = () => {
       </Grid>
       <WinLoss>
         <Typography variant="body2">
-          <span style={{ color: "green" }}>{flexRank.wins}W</span> / 
+          <span style={{ color: "green" }}>{flexRank.wins}W</span> /
           <span style={{ color: "red" }}> {flexRank.losses}L</span>
         </Typography>
         <Typography variant="body2">
-          Winrate: {winRateColor(winRate)} - Total de partidas: <span style={{ color: "blue" }}>{totalGames}</span>
+          Winrate: {winRateColor(winRate)} - Total de partidas:{" "}
+          <span style={{ color: "blue" }}>{totalGames}</span>
         </Typography>
       </WinLoss>
     </Container>
