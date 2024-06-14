@@ -5,7 +5,7 @@ import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
 import { loading, nickName, tag } from '../../signals/signalsUser';
 import LoadingComponent from '../loading/loading';
-import { handleSearch } from '../../util/util';
+import { AoVivo, handleSearch } from '../../util/util';
 import { useSignals } from '@preact/signals-react/runtime';
 import { useNavigate } from 'react-router-dom';
 
@@ -18,6 +18,7 @@ const SearchForm = () => {
         e.preventDefault();
         loading.value = true;
         await handleSearch(nickName.value, tag.value); 
+        await AoVivo(nickName.value, tag.value);
         loading.value = false;
         navigate('/meuperfil'); 
     };

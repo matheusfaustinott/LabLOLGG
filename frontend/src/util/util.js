@@ -1,6 +1,7 @@
 import versao from "../signals/versao";
 import axios from 'axios';
 import { champMaisUsado, elo, loading, matches, summoner } from "../signals/signalsUser";
+import { dadosAoVivo, estaAoVivo, gameQueueConfigId } from "../signals/aoVivoSignals";
 
 
 
@@ -40,7 +41,26 @@ export const handleSearch = async (gameName, tagLine) => {
     }
 };
 
-   // Lógica para encontrar os campeões mais jogados
+export const AoVivo = async (gameName, tagLine) => {
+    try {
+        const response = await axios.get(`http://150.162.202.29:3090/live-game/${gameName}/${tagLine}`);
+        const data = response.data;
+        dadosAoVivo.value = data.DadosAoVivo;
+        estaAoVivo.value = data.AoVivo;
+        gameQueueConfigId.value = data.DadosAoVivo.gameQueueConfigId;
+        console.log('resultados:',response.data)
+        
+       
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.error('Jogador Não está em partida:', error.message);
+        } else {
+            console.error('ERRO desconhecido:', error);
+        }
+    }
+};
+
+// Lógica para encontrar os campeões mais jogados
 export const findMostPlayedChampions = () => {
     const championsStats = {};
 
