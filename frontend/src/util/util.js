@@ -22,7 +22,7 @@ export const version  = () =>{
 export const handleSearch = async (gameName, tagLine) => {
     loading.value = true;
     try {
-        const response = await axios.get(`http://150.162.202.29:3090/search/${gameName}/${tagLine}`);
+        const response = await axios.get(`http://localhost:3090/search/${gameName}/${tagLine}`);
         const data = response.data;
         console.log('resultado:',response.data)
         summoner.value = data.summoner;
@@ -43,7 +43,7 @@ export const handleSearch = async (gameName, tagLine) => {
 
 export const AoVivo = async (gameName, tagLine) => {
     try {
-        const response = await axios.get(`http://150.162.202.29:3090/live-game/${gameName}/${tagLine}`);
+        const response = await axios.get(`http://localhost:3090/live-game/${gameName}/${tagLine}`);
         const data = response.data;
         console.log("ao vivo", dadosAoVivo.value);
         dadosAoVivo.value = data.DadosAoVivo;
@@ -63,7 +63,6 @@ export const AoVivo = async (gameName, tagLine) => {
 
 export const findMostPlayedChampions = () => {
     const championsStats = {};
-
     if (summoner.value && matches.value) {
         matches.value.forEach(match => {
             match.info.participants.forEach(participant => {
