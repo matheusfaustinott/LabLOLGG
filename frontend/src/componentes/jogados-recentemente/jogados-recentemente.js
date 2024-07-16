@@ -3,6 +3,40 @@ import { champMaisUsado } from '../../signals/signalsUser';
 import { useSignals } from '@preact/signals-react/runtime';
 import versao from '../../signals/versao';
 import { findMostPlayedChampions } from '../../util/util';
+import { Box, Grid } from '@mui/material';
+
+const styles = {
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        gap: '10px'
+    },
+    championsContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        gap: '20px'
+    },
+    championContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '5px'
+    },
+    championImage: {
+        width: '40px',
+        height: '40px',
+        borderRadius: '10px'
+    },
+    stats: {
+        display: 'flex',
+        alignItems: 'center',
+        marginTop: '5px',
+        fontSize: '12px',
+        gap: '5px',
+        borderRadius: '10px'
+    }
+};
 
 const RecentPlayedChampions = () => {
     useSignals();
@@ -11,77 +45,31 @@ const RecentPlayedChampions = () => {
     champMaisUsado.value = mostPlayedChampions;
 
     return (
-        <div style={styles.container}>
-            <h2 style={styles.title}>Campeões jogados recentemente</h2>
-            <div style={styles.championsContainer}>
+        <Grid style={styles.container}>
+            <span>
+                <b>Campeões jogados recentemente</b>
+            </span>
+            <Box style={styles.championsContainer}>
                 {mostPlayedChampions.map(([championName, stats]) => (
-                    <div key={championName} style={styles.championContainer}>
+                    <Grid key={championName} style={styles.championContainer}>
                         <img
                             src={`https://ddragon.leagueoflegends.com/cdn/${versao.value}/img/champion/${championName}.png`}
                             alt={championName}
                             style={styles.championImage}
                         />
-                        <div style={styles.stats}>
-                            <p style={styles.wins}>W: {stats.wins}</p>
-                            <p style={styles.losses}>L: {stats.losses}</p>
-                        </div>
-                    </div>
+                        <Box style={styles.stats}>
+                            <span style={{ color: 'green' }}>
+                                <b>W: {stats.wins}</b>
+                            </span>
+                            <span style={{ color: '#b51b16' }}>
+                                <b>L: {stats.losses}</b>
+                            </span>
+                        </Box>
+                    </Grid>
                 ))}
-            </div>
-        </div>
+            </Box>
+        </Grid>
     );
-};
-
-const styles = {
-    container: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '10px',
-        opacity: 0.8,
-        boxSizing: 'border-box'
-    },
-    title: {
-        textAlign: 'center',
-        marginBottom: '10px',
-        fontSize: '16px',
-        fontWeight: 'bold',
-        color: '#fff'
-    },
-    championsContainer: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
-        gap: '20px'
-    },
-    championContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center'
-    },
-    championImage: {
-        width: '40px',
-        height: '40px',
-        borderRadius: '50%'
-    },
-    stats: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginTop: '5px',
-        fontSize: '12px',
-        opacity: 0.7
-    },
-    wins: {
-        color: 'green',
-        marginRight: '5px'
-    },
-    losses: {
-        color: 'red'
-    }
 };
 
 export default RecentPlayedChampions;
