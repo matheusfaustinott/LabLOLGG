@@ -1,58 +1,86 @@
 import React from 'react';
-import { Box, TextField, Button} from '@mui/material';
+import { Box, TextField, Button } from '@mui/material';
 import { useSignals } from '@preact/signals-react/runtime';
 import { findMostPlayedChampions, handleSearch } from '../util/util';
 import { champMaisUsado, loading, nickName, tag } from '../signals/signalsUser';
 import LoadingComponent from './loading/loading';
+import { IconButton } from '@mui/material';
+import { Search as SearchIcon } from '@mui/icons-material';
+import { NavLink } from 'react-router-dom';
 
 const Menu = () => {
-    useSignals();
-    
+	useSignals();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        await handleSearch(nickName.value, tag.value);
-        
-        // Atualiza championName após a busca
-        const newChampionName = findMostPlayedChampions();
-        champMaisUsado.value = newChampionName[0][0];
-        console.log('novo',champMaisUsado.value)
-    };
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		await handleSearch(nickName.value, tag.value);
 
-    return (
-        <Box
-            component="div"
-            sx={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: 2,
-                backgroundColor: 'background.paper',
-                boxShadow: 3,
-                borderRadius: 2,
-                width: '100%',
-                justifyContent: 'space-between'
-            }}
-        >
-            <Box component="img" src="/favicon.ico" alt="Logo" sx={{ height: 40, width: 40 }} />
+		// Atualiza championName após a busca
+		const newChampionName = findMostPlayedChampions();
+		champMaisUsado.value = newChampionName[0][0];
+		console.log('novo', champMaisUsado.value);
+	};
 
-            <form onSubmit={handleSubmit} style={{ display: 'flex', alignItems: 'center', flexGrow: 1, marginLeft: 2 }}>
-                <TextField
-                    id="game-name-input"
-                    label="Nick"
-                    variant="outlined"
-                    value={nickName.value}
-                    onChange={(e) => nickName.value = e.target.value}
-                    sx={{ flexBasis: '45%', marginRight: 2 }}
-                />
-                <TextField
-                    id="tag-line-input"
-                    label="Tag"
-                    variant="outlined"
-                    value={tag.value}
-                    onChange={(e) => tag.value = e.target.value}
-                    sx={{ flexBasis: '15%', marginRight: 2 }}
-                />
-                <Button
+	return (
+		<Box
+			component='div'
+			sx={{
+				display: 'flex',
+				alignItems: 'center',
+				padding: 2,
+				backgroundColor: 'background.paper',
+				boxShadow: 3,
+				borderRadius: 2,
+				width: '100%',
+				justifyContent: 'space-between',
+			}}
+		>
+			<NavLink to='/'>
+				<Box
+					component='img'
+					src='/favicon.ico'
+					alt='Logo'
+					sx={{ height: 50, width: 50, borderRadius: 3 }}
+				/>
+			</NavLink>
+			<form
+				onSubmit={handleSubmit}
+				style={{
+					display: 'flex',
+					alignItems: 'center',
+					flexGrow: 1,
+					marginLeft: 15,
+				}}
+			>
+				<TextField
+					id='game-name-input'
+					label='Nick'
+					variant='outlined'
+					value={nickName.value}
+					onChange={(e) => (nickName.value = e.target.value)}
+					sx={{
+						flexBasis: '45%',
+						marginRight: 1,
+						'& .MuiOutlinedInput-root': {
+							borderRadius: 3,
+						},
+					}}
+				/>
+				<TextField
+					id='tag-line-input'
+					label='Tag'
+					variant='outlined'
+					value={tag.value}
+					onChange={(e) => (tag.value = e.target.value)}
+					sx={{
+						flexBasis: '15%',
+						marginRight: 1,
+						'& .MuiOutlinedInput-root': {
+							borderRadius: 3,
+						},
+					}}
+				/>
+				{/* <Button
                     type="submit"
                     variant="contained"
                     disabled={loading.value}
@@ -65,12 +93,24 @@ const Menu = () => {
                         alignItems: 'center',
                     }}
                 >
-                </Button>
-            </form>
+                </Button> */}
+				<IconButton
+					type='submit'
+					variant='contained'
+					disabled={loading.value}
+					sx={{
+						'&:hover': {
+							backgroundColor: '#fff',
+						},
+					}}
+				>
+					<SearchIcon />
+				</IconButton>
+			</form>
 
-            <LoadingComponent open={loading.value} />
-        </Box>
-    );
+			<LoadingComponent open={loading.value} />
+		</Box>
+	);
 };
 
 export default Menu;
