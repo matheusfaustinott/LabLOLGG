@@ -45,6 +45,7 @@ export const AoVivo = async (gameName, tagLine) => {
     try {
         const response = await axios.get(`http://150.162.202.29:3090/live-game/${gameName}/${tagLine}`);
         const data = response.data;
+        console.log("ao vivo", dadosAoVivo.value);
         dadosAoVivo.value = data.DadosAoVivo;
         estaAoVivo.value = data.AoVivo;
         gameQueueConfigId.value = data.DadosAoVivo.gameQueueConfigId;
@@ -60,11 +61,9 @@ export const AoVivo = async (gameName, tagLine) => {
     }
 };
 
-// Lógica para encontrar os campeões mais jogados
 export const findMostPlayedChampions = () => {
     const championsStats = {};
 
-    // Verifica se summoner e matches estão definidos
     if (summoner.value && matches.value) {
         matches.value.forEach(match => {
             match.info.participants.forEach(participant => {
@@ -77,7 +76,6 @@ export const findMostPlayedChampions = () => {
             });
         });
     }
-    // Transformar em array e ordenar por quantidade de partidas
     const sortedChampions = Object.entries(championsStats).sort(([, a], [, b]) => {
         const aTotal = a.wins + a.losses;
         const bTotal = b.wins + b.losses;
