@@ -21,31 +21,25 @@ const MeuPerfil = () => {
         alignItems: 'center'
       }}
     >
-      {/* Header */}
       <Box sx={{ width: '100%' }}>
         <Menu />
       </Box>
       
-      {/* Main Content */}
       <Grid container spacing={2} sx={{ width: '100%', marginTop: 2 }}>
-        {/* Banner */}
+        
         <Grid item xs={12}>
           <Banner />
         </Grid>
         
-        {/* RankedDetails on the right */}
         <Grid item xs={12} md={4}>
           <RankedDetails />
           <RankedDetailsFlex/>
           <JogadorEmPartida/>
           
-          {/* Duos below RankedDetails */}
           <Box sx={{ marginTop: 2 }}>
             <Duos />
           </Box>
         </Grid>
-        
-        {/* MatchList in the center below the banner */}
         <Grid item xs={12} md={8}>
           <MatchList />
         </Grid>

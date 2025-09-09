@@ -20,7 +20,7 @@ const Banner = () => {
                 <div style={{ position: 'absolute', top: '10px', right: '10px' }}>
                     <Role/>
                 </div>
-                <div style={{ marginTop: '20px' }}><RecentPlayedChampions/></div> {/* Adicionando espaçamento entre LabGGIcon e RecentPlayedChampions */}
+                <div style={{ marginTop: '20px' }}><RecentPlayedChampions/></div> 
             </div>
         </div>
     );

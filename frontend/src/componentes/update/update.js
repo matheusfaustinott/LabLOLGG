@@ -15,7 +15,7 @@ const UpdateButton = () => {
         await handleSearch(nickName.value, tag.value);
         loading.value = false;
         setIsDisabled(true);
-        setTimeLeft(1 * 60); // 30 minutes in seconds
+        setTimeLeft(1 * 60); 
     };
 
     useEffect(() => {

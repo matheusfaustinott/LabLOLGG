@@ -8,7 +8,6 @@ const Duos = () => {
     const acharduos = () => {
         const duosAchados = {};
 
-        // Verifica se summoner e matches estão definidos
         if (summoner.value && matches.value) {
             matches.value.forEach(match => {
                 const currentSummonerPuuid = summoner.value.puuid;

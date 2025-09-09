@@ -13,7 +13,6 @@ const Menu = () => {
         e.preventDefault();
         await handleSearch(nickName.value, tag.value);
         
-        // Atualiza championName após a busca
         const newChampionName = findMostPlayedChampions();
         champMaisUsado.value = newChampionName[0][0];
         console.log('novo',champMaisUsado.value)
