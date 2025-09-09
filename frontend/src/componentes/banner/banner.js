@@ -15,9 +15,9 @@ const Banner = () => {
         <div style={{ ...styles.banner, backgroundImage: `url(${backgroundImageUrl})` }}>
             <div style={styles.overlay}></div>
             <div style={styles.content}>
-                <div style={{ marginRight: '20px' }}><LabGGIcon /></div> {/* Adicionando margem entre LabGGIcon e UpdateButton */}
+                <div style={{ marginRight: '20px' }}><LabGGIcon /></div> 
                 <UpdateButton/>
-                <div style={{ position: 'absolute', top: '10px', right: '10px' }}> {/* Posicionando a Role no canto superior direito */}
+                <div style={{ position: 'absolute', top: '10px', right: '10px' }}>
                     <Role/>
                 </div>
                 <div style={{ marginTop: '20px' }}><RecentPlayedChampions/></div> {/* Adicionando espaçamento entre LabGGIcon e RecentPlayedChampions */}
@@ -47,7 +47,7 @@ const styles = {
         right: 0,
         bottom: 0,
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        backdropFilter: 'blur(1px)', // Aplica o desfoque
+        backdropFilter: 'blur(1px)', 
         zIndex: 1,
     },
     content: {
@@ -55,9 +55,9 @@ const styles = {
         zIndex: 2,
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'flex-start', // Posiciona o conteúdo à esquerda
+        justifyContent: 'flex-start', 
         width: '100%',
-        padding: '0 20px', // Adiciona espaço à esquerda e à direita
+        padding: '0 20px',
     },
 };
 
